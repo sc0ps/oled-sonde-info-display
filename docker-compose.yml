@@ -1,0 +1,13 @@
+services:
+  oled:
+    build: .
+    container_name: oled-sonde-info-display
+    restart: always
+    privileged: true
+    devices:
+      - /dev/i2c-1:/dev/i2c-1
+    environment:
+      - CALLSIGN=CHANGE_ME
+      - HORUS_UDP_PORT=55673
+      - I2C_ADDR=0x3C
+      - OLED_CONTRAST=160
