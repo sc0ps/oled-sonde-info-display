@@ -48,7 +48,7 @@ After telemetry stops, the last received data remains visible for 6 minutes befo
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/ScopsOwlDesigns/oled-sonde-info-display.git
+git clone https://github.com/sc0ps/oled-sonde-info-display.git
 cd oled-sonde-info-display
 ```
 
