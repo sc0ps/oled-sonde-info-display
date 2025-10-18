@@ -66,8 +66,21 @@ docker logs -f oled-sonde-info-display
 ### Configuration
 
 You must set your own callsign before starting the container.
-By default, the compose file uses CALLSIGN=CHANGE_ME.
-Edit docker-compose.yml and replace CHANGE_ME with your own callsign.
+
+By default, the compose file uses:
+```yml
+CALLSIGN=CHANGE_ME
+```
+
+You need to edit the file docker-compose.yml located in the root of this project folder and replace CHANGE_ME with your personal callsign — for example: sc0ps.
+
+You can edit it directly on your Raspberry Pi using:
+
+```bash
+nano docker-compose.yml
+```
+
+Then modify this section:
 ```yml
 services:
   oled:
@@ -78,7 +91,7 @@ services:
     devices:
       - /dev/i2c-1:/dev/i2c-1
     environment:
-      - CALLSIGN=CHANGE_ME        # REQUIRED: change this to your callsign
+      - CALLSIGN=Foxy_NL          # REQUIRED: your callsign
       - HORUS_UDP_PORT=55673      # UDP port used by Auto-RX / ChaseMapper
       - I2C_ADDR=0x3C             # I²C address of your OLED
       - OLED_CONTRAST=160         # Display brightness (0–255)
