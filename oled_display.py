@@ -89,8 +89,12 @@ LAST_RX = 0.0
 # Helper Functions
 # --------------------------------------------------------------
 def draw_centered(draw, text, y, font):
-    """Draw centered text on OLED."""
-    w, _ = draw.textsize(text, font=font)
+    """Draw centered text on OLED (compatible with Pillow 10+)."""
+    try:
+        bbox = draw.textbbox((0, 0), text, font=font)
+        w = bbox[2] - bbox[0]
+    except AttributeError:
+        w, _ = draw.textsize(text, font=font)
     draw.text(((128 - w) // 2, y), text, font=font, fill=255)
 
 def parse_freq(v):
@@ -114,6 +118,7 @@ def rx_state(now=None):
     if age <= HOLD_LAST_S:
         return "RECENT", age
     return "IDLE", age
+
 
 # --------------------------------------------------------------
 # OLED Page Renderers
