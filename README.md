@@ -67,7 +67,7 @@ docker logs -f oled-sonde-info-display
 
 You must set your own callsign before starting the container.
 By default, the compose file uses CALLSIGN=CHANGE_ME.
-Edit docker-compose.yml and replace CHANGE_ME with your own callsign (for example, Foxy_NL).
+Edit docker-compose.yml and replace CHANGE_ME with your own callsign.
 ```yml
 services:
   oled:
