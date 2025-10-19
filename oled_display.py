@@ -230,7 +230,7 @@ def main():
             PAGES[page_idx](d)
 
         elif state == "RECENT":
-            label(d, "LAATST")
+            label(d, "NO SIGNAL")
             t = f"{int(age)}s"
             w, _ = text_size(d, t, F14)
             d.text(((W - w) // 2, 12), t, font=F14, fill=255)
