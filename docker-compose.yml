@@ -8,10 +8,9 @@ services:
     devices:
       - "/dev/i2c-1:/dev/i2c-1"
     environment:
-      - TZ=Europe/Amsterdam
       - CALLSIGN=CHANGE_ME
+      - HORUS_UDP_PORT=55673
       - I2C_ADDR=0x3C
       - OLED_CONTRAST=160
       - PAGE_INTERVAL_S=3.0
       - REFRESH_HZ=2
-      - HORUS_UDP_PORT=55673
