@@ -43,6 +43,37 @@ After telemetry stops, the last data remains visible for six minutes before retu
 - Can run in **Docker** or directly in **Python**
 
 ---
+## OLED Display Workflow
+
+Below is the typical behavior of the **OLED Sonde Info Display** during operation:
+
+### 1. Startup / Idle mode
+The display shows your callsign when no sonde is detected or at startup.
+
+![Idle Screen](assets/idle.gif)
+
+---
+
+### 2. Active telemetry reception
+When telemetry packets are received from a radiosonde, the display cycles through
+live data pages such as model, callsign, frequency, altitude, speed, and signal strength.
+
+![Active Telemetry Loop](assets/active.gif)
+
+---
+
+### 3. No signal
+If the sonde stops transmitting, the display shows **"NO SIGNAL"** and a timer indicating
+how long it has been since the last received packet (up to 6 minutes).
+
+![No Signal](assets/no_signal.gif)
+
+If the sonde starts transmitting again within this 6-minute period,
+the display will automatically resume showing live telemetry information.
+After the 6-minute timeout, if no new data is received, the display
+returns to idle mode showing your callsign.
+
+---
 
 ## Documentation
 
