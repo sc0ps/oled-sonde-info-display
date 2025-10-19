@@ -1,4 +1,4 @@
-name: Build & Publish Multi-Arch Docker Image
+name: Build & Publish Raspberry Pi Docker Image
 
 on:
   push:
@@ -8,11 +8,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Set up QEMU
+      - name: Set up QEMU (for ARM emulation)
         uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
@@ -25,11 +26,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push multi-arch image
+      - name: Build and push Raspberry Pi image
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          platforms: linux/arm64,linux/arm/v7
           tags: |
             ghcr.io/${{ github.repository_owner }}/oled-sonde-info-display:latest

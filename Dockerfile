@@ -1,32 +1,54 @@
-# ==============================================================
-#  OLED Sonde Info Display
-#  Lightweight Docker container to display Auto-RX telemetry
-#  Maintained by Scops Owl Designs (Sc0ps)
-# ==============================================================
+# ============================================================
+# OLED Sonde Info Display - Raspberry Pi Build
+# Maintainer: Sc0ps / ScopsOwlDesigns
+# ============================================================
 
 FROM python:3.11-slim
 
-LABEL maintainer="Scops Owl Designs <ScopsOwlDesigns@gmail.com>" \
-      description="OLED Sonde Info Display — Auto-RX telemetry on SSD1306 OLED" \
-      license="CC BY-NC 4.0"
+LABEL maintainer="ScopsOwlDesigns <ScopsOwlDesigns@gmail.com>"
+LABEL description="OLED Sonde Info Display - Optimized for Raspberry Pi (ARM64/ARMv7)"
 
-# ---- Dependencies ----
+# ------------------------------------------------------------
+# Install dependencies for Pillow & luma.oled
+# ------------------------------------------------------------
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    i2c-tools fonts-dejavu-core && \
-    rm -rf /var/lib/apt/lists/*
+    build-essential \
+    libjpeg-dev \
+    zlib1g-dev \
+    libfreetype6-dev \
+    liblcms2-dev \
+    libopenjp2-7-dev \
+    libtiff5-dev \
+    libwebp-dev \
+    tcl-dev tk-dev python3-tk \
+    libxcb1-dev \
+    libffi-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# ---- Working directory ----
 WORKDIR /app
-COPY oled_display.py .
 
-# ---- Python requirements ----
-RUN pip install --no-cache-dir pillow luma.oled
+# ------------------------------------------------------------
+# Install Python dependencies
+# ------------------------------------------------------------
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# ---- Environment defaults ----
-ENV CALLSIGN="CHANGE_ME" \
-    HORUS_UDP_PORT=55673 \
-    I2C_ADDR=0x3C \
-    OLED_CONTRAST=160
+# ------------------------------------------------------------
+# Copy application files
+# ------------------------------------------------------------
+COPY . .
 
-# ---- Run the display script ----
+# ------------------------------------------------------------
+# Set environment defaults (can be overridden)
+# ------------------------------------------------------------
+ENV CALLSIGN=CHANGE_ME
+ENV HORUS_UDP_PORT=55673
+ENV I2C_ADDR=0x3C
+ENV OLED_CONTRAST=160
+ENV PAGE_INTERVAL_S=3.0
+ENV REFRESH_HZ=2.0
+
+# ------------------------------------------------------------
+# Run the main app
+# ------------------------------------------------------------
 CMD ["python", "oled_display.py"]
