@@ -1,54 +1,16 @@
-# ============================================================
-# OLED Sonde Info Display - Raspberry Pi Build
-# Maintainer: Sc0ps / ScopsOwlDesigns
-# ============================================================
+FROM --platform=linux/arm64 python:3.11-slim
 
-FROM python:3.11-slim
-
-LABEL maintainer="ScopsOwlDesigns <ScopsOwlDesigns@gmail.com>"
-LABEL description="OLED Sonde Info Display - Optimized for Raspberry Pi (ARM64/ARMv7)"
-
-# ------------------------------------------------------------
-# Install dependencies for Pillow & luma.oled
-# ------------------------------------------------------------
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    libjpeg-dev \
-    zlib1g-dev \
-    libfreetype6-dev \
-    liblcms2-dev \
-    libopenjp2-7-dev \
-    libtiff5-dev \
-    libwebp-dev \
-    tcl-dev tk-dev python3-tk \
-    libxcb1-dev \
-    libffi-dev \
-    && rm -rf /var/lib/apt/lists/*
+    i2c-tools fonts-dejavu-core && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
+COPY requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir -r /app/requirements.txt
 
-# ------------------------------------------------------------
-# Install Python dependencies
-# ------------------------------------------------------------
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY oled_display.py /app/oled_display.py
 
-# ------------------------------------------------------------
-# Copy application files
-# ------------------------------------------------------------
-COPY . .
+ENV TZ=Europe/Amsterdam
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 CMD i2cdetect -y 1 || exit 1
 
-# ------------------------------------------------------------
-# Set environment defaults (can be overridden)
-# ------------------------------------------------------------
-ENV CALLSIGN=CHANGE_ME
-ENV HORUS_UDP_PORT=55673
-ENV I2C_ADDR=0x3C
-ENV OLED_CONTRAST=160
-ENV PAGE_INTERVAL_S=3.0
-ENV REFRESH_HZ=2.0
-
-# ------------------------------------------------------------
-# Run the main app
-# ------------------------------------------------------------
-CMD ["python", "oled_display.py"]
+CMD ["python", "/app/oled_display.py"]
