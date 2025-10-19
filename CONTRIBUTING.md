@@ -1,7 +1,7 @@
-# Contributing to OLED Sonde Info Display
+## Contributing to OLED Sonde Info Display
 
 Thank you for your interest in contributing to **OLED Sonde Info Display**!  
-This document outlines guidelines for reporting issues, suggesting features, and submitting pull requests.
+This project is open-source under the **GNU General Public License v3.0 (GPLv3)**, and contributions of all kinds are welcome.
 
 ---
 
@@ -28,3 +28,9 @@ To test locally:
 ```bash
 docker compose up -d --build
 ```
+---
+
+For setup and hardware connection details, see [docs/installation_guide.md](docs/installation_guide.md).
+
+© 2025 Scops Owl Designs (Sc0ps)  
+Licensed under the GNU General Public License v3.0
